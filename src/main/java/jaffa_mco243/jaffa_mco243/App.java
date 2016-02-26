@@ -1,4 +1,4 @@
-package jaffa_mco243.jaffa_mco2432;
+package jaffa_mco243.jaffa_mco243;
 
 /**
  * Hello world!
