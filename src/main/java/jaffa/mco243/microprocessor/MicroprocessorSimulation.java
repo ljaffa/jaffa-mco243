@@ -1,8 +1,8 @@
 package jaffa.mco243.microprocessor;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class MicroprocessorSimulation {
 
@@ -19,7 +19,9 @@ public class MicroprocessorSimulation {
 
 	public MicroprocessorSimulation(String fileName) throws IOException {
 		memory = new char[256];
-		BufferedReader reader = new BufferedReader(new FileReader(fileName));
+		// BufferedReader reader = new BufferedReader(new FileReader(fileName));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				System.in));
 
 		while ((line = reader.readLine()) != null) {
 			execute(line.toCharArray());
@@ -36,7 +38,7 @@ public class MicroprocessorSimulation {
 			switch (character) {
 			case '0':
 				hex = String.valueOf(memory[i + 1]).toUpperCase()
-						+ String.valueOf(memory[i + 2]).toUpperCase();
+				+ String.valueOf(memory[i + 2]).toUpperCase();
 				dec = Integer.parseInt(hex, 16);
 				location = dec;
 				accumulatorA = Integer.parseInt(String
@@ -45,7 +47,7 @@ public class MicroprocessorSimulation {
 				break;
 			case '1':
 				hex = String.valueOf(memory[i + 1]).toUpperCase()
-						+ String.valueOf(memory[i + 2]).toUpperCase();
+				+ String.valueOf(memory[i + 2]).toUpperCase();
 				dec = Integer.parseInt(hex, 16);
 				location = dec;
 				String hex2 = Integer.toHexString(accumulatorA).toUpperCase();
@@ -91,7 +93,7 @@ public class MicroprocessorSimulation {
 				}
 			case '7':
 				hex = String.valueOf(memory[i + 1]).toUpperCase()
-						+ String.valueOf(memory[i + 2]).toUpperCase();
+				+ String.valueOf(memory[i + 2]).toUpperCase();
 				dec = Integer.parseInt(hex, 16);
 				location = dec;
 				i = --location;
