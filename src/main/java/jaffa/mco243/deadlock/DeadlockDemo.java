@@ -22,12 +22,12 @@ public class DeadlockDemo {
 			}
 		}.start();
 
-		new Thread() {
-			@Override
-			public void run() {
-				DeadlockDemo.notGoingToHappen();
-			}
-		}.start();
+		/*
+		 * new Thread() {
+		 * 
+		 * @Override public void run() { DeadlockDemo.notGoingToHappen(); }
+		 * }.start();
+		 */
 	}
 
 }
