@@ -2,32 +2,25 @@ package jaffa.mco243.scheduler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-public class JobScheduler extends Scheduler {
+public class RoundRobinScheduler extends Scheduler {
 
-	private Comparator<Job> comparator;
-
-	public JobScheduler(List<Job> jobs, Comparator<Job> comparator) {
+	public RoundRobinScheduler(List<Job> jobs) {
 		super(jobs);
-		this.comparator = comparator;
 	}
 
 	@Override
 	public void run() {
-		Job lastJob = null;
 		while (!jobs.isEmpty()) {
-			Collections.sort(jobs, comparator);
-			Job job = jobs.get(0);
+			Job job = jobs.remove(0);
 			int actualTimeSlice = executeJob(job);
-
 			totalTime += actualTimeSlice;
 
-			if (job != lastJob) {
-				totalTime += OVERHEAD;
-				lastJob = job;
+			if (!job.isFinished()) {
+				// if process isnt finished before its quantum time expires
+				// it is put back in the queue
+				jobs.add(job);
 			}
 		}
 	}
@@ -44,8 +37,8 @@ public class JobScheduler extends Scheduler {
 				600, 4L), new Job("9", Priority.Low, JobType.IO, 700, 2L),
 				new Job("10", Priority.High, JobType.Computation, 200, 3L));
 
-		JobScheduler scheduler = new JobScheduler(new ArrayList<Job>(jobs),
-				new PriorityComparator());
+		RoundRobinScheduler scheduler = new RoundRobinScheduler(
+				new ArrayList<Job>(jobs));
 		scheduler.run();
 
 		System.out.println(String.format(

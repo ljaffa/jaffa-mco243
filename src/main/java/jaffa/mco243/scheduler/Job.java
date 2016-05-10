@@ -1,6 +1,6 @@
 package jaffa.mco243.scheduler;
 
-public class Job {
+public class Job implements Comparable {
 
 	private Priority priority;
 	private Priority dynamicPriority;
@@ -9,12 +9,23 @@ public class Job {
 	private String name;
 	private JobType type;
 	private JobState state;
+	private Long deadline;
 
-	public Job(String name, Priority priority, JobType type, int timeLeftToRun) {
+	public Job(String name, Priority priority, JobType type, int timeLeftToRun,
+			Long deadline) {
 		this.name = name;
 		this.priority = priority;
 		this.type = type;
 		this.timeLeftToRun = timeLeftToRun;
+		this.deadline = deadline;
+	}
+
+	public Long getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(Long deadline) {
+		this.deadline = deadline;
 	}
 
 	public Priority getPriority() {
@@ -79,6 +90,11 @@ public class Job {
 
 	public boolean isFinished() {
 		return timeLeftToRun <= 0;
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		return 0;
 	}
 
 }

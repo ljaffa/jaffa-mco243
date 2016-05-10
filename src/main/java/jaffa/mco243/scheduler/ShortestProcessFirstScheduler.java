@@ -6,11 +6,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class JobScheduler extends Scheduler {
+public class ShortestProcessFirstScheduler extends Scheduler {
 
 	private Comparator<Job> comparator;
 
-	public JobScheduler(List<Job> jobs, Comparator<Job> comparator) {
+	public ShortestProcessFirstScheduler(List<Job> jobs,
+			Comparator<Job> comparator) {
 		super(jobs);
 		this.comparator = comparator;
 	}
@@ -22,7 +23,6 @@ public class JobScheduler extends Scheduler {
 			Collections.sort(jobs, comparator);
 			Job job = jobs.get(0);
 			int actualTimeSlice = executeJob(job);
-
 			totalTime += actualTimeSlice;
 
 			if (job != lastJob) {
@@ -30,6 +30,7 @@ public class JobScheduler extends Scheduler {
 				lastJob = job;
 			}
 		}
+
 	}
 
 	public static void main(String[] args) {
@@ -44,13 +45,12 @@ public class JobScheduler extends Scheduler {
 				600, 4L), new Job("9", Priority.Low, JobType.IO, 700, 2L),
 				new Job("10", Priority.High, JobType.Computation, 200, 3L));
 
-		JobScheduler scheduler = new JobScheduler(new ArrayList<Job>(jobs),
-				new PriorityComparator());
+		ShortestProcessFirstScheduler scheduler = new ShortestProcessFirstScheduler(
+				new ArrayList<Job>(jobs), new TimeLeftToRunComparator());
 		scheduler.run();
 
 		System.out.println(String.format(
 				"Number of jobs completed = %d, Total time = %d",
 				scheduler.numJobsCompleted, scheduler.totalTime));
 	}
-
 }
