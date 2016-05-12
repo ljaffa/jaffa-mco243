@@ -20,9 +20,9 @@ public class DeadlineScheduler extends Scheduler {
 		while (!jobs.isEmpty()) {
 			Collections.sort(jobs, comparator);
 			Job job = jobs.get(0);
-			int actualTimeSLice = executeJob(job);
+			int actualTimeSlice = executeJob(job);
 
-			totalTime += actualTimeSLice;
+			totalTime += actualTimeSlice;
 
 			if (job != lastJob) {
 				totalTime += OVERHEAD;
